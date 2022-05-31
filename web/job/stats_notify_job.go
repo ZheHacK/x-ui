@@ -56,12 +56,12 @@ func (j *StatsNotifyJob) UserLoginNotify(username string, ip string, time string
 		return
 	}
 	if status == LoginSuccess {
-		msg = fmt.Sprintf("面板登录成功提醒\r\n主机名称:%s\r\n", name)
+		msg = fmt.Sprintf("Pengingat keberhasilan masuk panel\r\n nama host:%s\r\n", name)
 	} else if status == LoginFail {
-		msg = fmt.Sprintf("面板登录失败提醒\r\n主机名称:%s\r\n", name)
+		msg = fmt.Sprintf("Pengingat kegagalan login panel\r\n nama host:%s\r\n", name)
 	}
-	msg += fmt.Sprintf("时间:%s\r\n", time)
-	msg += fmt.Sprintf("用户:%s\r\n", username)
+	msg += fmt.Sprintf("waktu:%s\r\n", time)
+	msg += fmt.Sprintf("pengguna:%s\r\n", username)
 	msg += fmt.Sprintf("IP:%s\r\n", ip)
 	j.telegramService.SendMsgToTgbot(msg)
 }
@@ -120,12 +120,12 @@ func (j *StatsNotifyJob) SSHStatusLoginNotify(xuiStartTime string) {
 			return
 		}
 
-		SSHLoginInfo = fmt.Sprintf("新用户登录提醒:\r\n")
-		SSHLoginInfo += fmt.Sprintf("主机名称:%s\r\n", name)
-		SSHLoginInfo += fmt.Sprintf("SSH登录用户:%s", SSHLoginUserName)
-		SSHLoginInfo += fmt.Sprintf("SSH登录时间:%s", SSHLoginTime)
-		SSHLoginInfo += fmt.Sprintf("SSH登录IP:%s", SSHLoginIpAddr)
-		SSHLoginInfo += fmt.Sprintf("当前SSH登录用户数:%s", getSSHUserNumber)
+		SSHLoginInfo = fmt.Sprintf("Pengingat login pengguna baru:\r\n")
+		SSHLoginInfo += fmt.Sprintf("nama host:%s\r\n", name)
+		SSHLoginInfo += fmt.Sprintf("Pengguna masuk SSH:%s", SSHLoginUserName)
+		SSHLoginInfo += fmt.Sprintf("Waktu masuk SSH:%s", SSHLoginTime)
+		SSHLoginInfo += fmt.Sprintf("IP masuk SSH:%s", SSHLoginIpAddr)
+		SSHLoginInfo += fmt.Sprintf("Jumlah pengguna login SSH saat ini:%s", getSSHUserNumber)
 		j.telegramService.SendMsgToTgbot(SSHLoginInfo)
 	} else {
 		SSHLoginUser = numberInt
@@ -140,7 +140,7 @@ func (j *StatsNotifyJob) GetsystemStatus() string {
 		fmt.Println("get hostname error:", err)
 		return ""
 	}
-	info = fmt.Sprintf("主机名称:%s\r\n", name)
+	info = fmt.Sprintf("nama host:%s\r\n", name)
 	//get ip address
 	var ip string
 	netInterfaces, err := net.Interfaces()
@@ -166,7 +166,7 @@ func (j *StatsNotifyJob) GetsystemStatus() string {
 			}
 		}
 	}
-	info += fmt.Sprintf("IP地址:%s\r\n \r\n", ip)
+	info += fmt.Sprintf("alamat IP:%s\r\n \r\n", ip)
 
 	//get traffic
 	inbouds, err := j.inboundService.GetAllInbounds()
@@ -177,11 +177,11 @@ func (j *StatsNotifyJob) GetsystemStatus() string {
 	//NOTE:If there no any sessions here,need to notify here
 	//TODO:分节点推送,自动转化格式
 	for _, inbound := range inbouds {
-		info += fmt.Sprintf("节点名称:%s\r\n端口:%d\r\n上行流量↑:%s\r\n下行流量↓:%s\r\n总流量:%s\r\n", inbound.Remark, inbound.Port, common.FormatTraffic(inbound.Up), common.FormatTraffic(inbound.Down), common.FormatTraffic((inbound.Up + inbound.Down)))
+		info += fmt.Sprintf("nama simpul:%s\r\n Pelabuhan:%d\r\n Lalu lintas hulu↑:%s\r\n Lalu lintas tautan turun↓:%s\r\n aliran total:%s\r\n", inbound.Remark, inbound.Port, common.FormatTraffic(inbound.Up), common.FormatTraffic(inbound.Down), common.FormatTraffic((inbound.Up + inbound.Down)))
 		if inbound.ExpiryTime == 0 {
-			info += fmt.Sprintf("到期时间:无限期\r\n \r\n")
+			info += fmt.Sprintf("Tanggal Kedaluwarsa: Tidak terbatas\r\n \r\n")
 		} else {
-			info += fmt.Sprintf("到期时间:%s\r\n \r\n", time.Unix((inbound.ExpiryTime/1000), 0).Format("2006-01-02 15:04:05"))
+			info += fmt.Sprintf("Tanggal kadaluarsa:%s\r\n \r\n", time.Unix((inbound.ExpiryTime/1000), 0).Format("2006-01-02 15:04:05"))
 		}
 	}
 	return info
