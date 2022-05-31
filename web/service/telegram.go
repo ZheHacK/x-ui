@@ -19,7 +19,7 @@ import (
 //This should be global variable,and only one instance
 var botInstace *tgbotapi.BotAPI
 
-//结构体类型大写表示可以被其他包访问
+//Huruf besar dari tipe struktur menunjukkan bahwa itu dapat diakses oleh paket lain
 type TelegramService struct {
 	xrayService    XrayService
 	serverService  ServerService
@@ -35,23 +35,23 @@ func (s *TelegramService) GetsystemStatus() string {
 		fmt.Println("get hostname error:", err)
 		return ""
 	}
-	status = fmt.Sprintf("主机名称:%s\r\n", name)
-	status += fmt.Sprintf("系统类型:%s\r\n", runtime.GOOS)
-	status += fmt.Sprintf("系统架构:%s\r\n", runtime.GOARCH)
+	status = fmt.Sprintf("nama host:%s\r\n", name)
+	status += fmt.Sprintf("tipe sistem:%s\r\n", runtime.GOOS)
+	status += fmt.Sprintf("struktur sistem:%s\r\n", runtime.GOARCH)
 	avgState, err := load.Avg()
 	if err != nil {
 		logger.Warning("get load avg failed:", err)
 	} else {
-		status += fmt.Sprintf("系统负载:%.2f,%.2f,%.2f\r\n", avgState.Load1, avgState.Load5, avgState.Load15)
+		status += fmt.Sprintf("beban sistem:%.2f,%.2f,%.2f\r\n", avgState.Load1, avgState.Load5, avgState.Load15)
 	}
 	upTime, err := host.Uptime()
 	if err != nil {
 		logger.Warning("get uptime failed:", err)
 	} else {
-		status += fmt.Sprintf("运行时间:%s\r\n", common.FormatTime(upTime))
+		status += fmt.Sprintf("jam operasi:%s\r\n", common.FormatTime(upTime))
 	}
 	//xray version
-	status += fmt.Sprintf("xray版本:%s\r\n", s.xrayService.GetXrayVersion())
+	status += fmt.Sprintf("versi xray:%s\r\n", s.xrayService.GetXrayVersion())
 	//ip address
 	var ip string
 	netInterfaces, err := net.Interfaces()
@@ -76,18 +76,18 @@ func (s *TelegramService) GetsystemStatus() string {
 			}
 		}
 	}
-	status += fmt.Sprintf("IP地址:%s\r\n \r\n", ip)
+	status += fmt.Sprintf("alamat IP:%s\r\n \r\n", ip)
 	//get traffic
 	inbouds, err := s.inboundService.GetAllInbounds()
 	if err != nil {
 		logger.Warning("StatsNotifyJob run error:", err)
 	}
 	for _, inbound := range inbouds {
-		status += fmt.Sprintf("节点名称:%s\r\n端口:%d\r\n上行流量↑:%s\r\n下行流量↓:%s\r\n总流量:%s\r\n", inbound.Remark, inbound.Port, common.FormatTraffic(inbound.Up), common.FormatTraffic(inbound.Down), common.FormatTraffic((inbound.Up + inbound.Down)))
+		status += fmt.Sprintf("nama simpul:%s\r\n port:%d\r\n Lalu lintas hulu↑:%s\r\n lalu lintas downlink↓:%s\r\n️️️️ aliran total:%s\r\n", inbound.Remark, inbound.Port, common.FormatTraffic(inbound.Up), common.FormatTraffic(inbound.Down), common.FormatTraffic((inbound.Up + inbound.Down)))
 		if inbound.ExpiryTime == 0 {
-			status += fmt.Sprintf("到期时间:无限期\r\n \r\n")
+			status += fmt.Sprintf("Tanggal Kedaluwarsa: Tidak terbatas\r\n \r\n")
 		} else {
-			status += fmt.Sprintf("到期时间:%s\r\n \r\n", time.Unix((inbound.ExpiryTime/1000), 0).Format("2006-01-02 15:04:05"))
+			status += fmt.Sprintf("Tanggal kadaluarsa:%s\r\n \r\n", time.Unix((inbound.ExpiryTime/1000), 0).Format("2006-01-02 15:04:05"))
 		}
 	}
 	return status
