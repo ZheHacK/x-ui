@@ -14,25 +14,25 @@
     </a-form-item>
     <a-form-item>
         <span slot="label">
-            监听 IP
+            Mendengarkan IP
             <a-tooltip>
                 <template slot="title">
-                    默认留空即可
+                    Biarkan kosong secara default
                 </template>
                 <a-icon type="question-circle" theme="filled"></a-icon>
             </a-tooltip>
         </span>
         <a-input v-model.trim="inbound.listen"></a-input>
     </a-form-item>
-    <a-form-item label="端口">
+    <a-form-item label="Pelabuhan">
         <a-input type="number" v-model.number="inbound.port"></a-input>
     </a-form-item>
     <a-form-item>
         <span slot="label">
-            总流量(GB)
+            Total lalu lintas (GB)
             <a-tooltip>
                 <template slot="title">
-                    0 表示不限制
+                    0 berarti tidak ada batas
                 </template>
                 <a-icon type="question-circle" theme="filled"></a-icon>
             </a-tooltip>
@@ -44,7 +44,7 @@
             到期时间
             <a-tooltip>
                 <template slot="title">
-                    留空则永不到期
+                    Biarkan kosong untuk tidak pernah kedaluwarsa
                 </template>
                 <a-icon type="question-circle" theme="filled"></a-icon>
             </a-tooltip>
