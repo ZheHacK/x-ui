@@ -103,7 +103,7 @@ update() {
         fi
         return 0
     fi
-    bash <(curl -Ls https://raw.githubusercontents.com/Misaka-blog/x-ui/master/install.sh)
+    bash <(curl -Ls https://raw.githubusercontents.com/ZheHacK/x-ui/master/install.sh)
     if [[ $? == 0 ]]; then
         green "Pembaruan selesai, panel telah dimulai ulang secara otomatis "
         exit 0
@@ -281,7 +281,7 @@ install_bbr() {
 }
 
 update_shell() {
-    wget -O /usr/bin/x-ui -N --no-check-certificate https://github.com/Misaka-blog/x-ui/raw/master/x-ui.sh
+    wget -O /usr/bin/x-ui -N --no-check-certificate https://github.com/ZheHacK/x-ui/raw/master/x-ui.sh
     if [[ $? != 0 ]]; then
         echo ""
         red "Gagal mengunduh skrip, harap periksa apakah mesin dapat terhubung ke Github"
@@ -346,11 +346,11 @@ show_status() {
     check_status
     case $? in
     0)
-        echo -e "status panel: ${GREEN}telah dijalankan${PLAIN}"
+        echo -e "status panel: ${GREEN}Telah dijalankan${PLAIN}"
         show_enable_status
         ;;
     1)
-        echo -e "status panel: ${YELLOW}tidak berjalan${PLAIN}"
+        echo -e "status panel: ${YELLOW}Tidak berjalan${PLAIN}"
         show_enable_status
         ;;
     2)
@@ -363,9 +363,9 @@ show_status() {
 show_enable_status() {
     check_enabled
     if [[ $? == 0 ]]; then
-        echo -e "Apakah akan memulai secara otomatis: ${GREEN}是${PLAIN}"
+        echo -e "Apakah akan memulai secara otomatis: ${GREEN}Ya${PLAIN}"
     else
-        echo -e "Apakah akan memulai secara otomatis: ${RED}否${PLAIN}"
+        echo -e "Apakah akan memulai secara otomatis: ${RED}Tidak${PLAIN}"
     fi
 }
 
@@ -388,7 +388,7 @@ show_xray_status() {
 }
 
 ssl_cert_issue() {
-    wget -N https://raw.githubusercontents.com/Misaka-blog/acme-1key/master/acme1key.sh && bash acme1key.sh
+    wget -N https://raw.githubusercontents.com/ZheHacK/acme-1key/master/acme1key.sh && bash acme1key.sh
 }
 
 open_ports(){
