@@ -54,7 +54,7 @@ func (s *InboundService) AddInbound(inbound *model.Inbound) error {
 		return err
 	}
 	if exist {
-		return common.NewError("端口已存在:", inbound.Port)
+		return common.NewError("pelabuhan sudah ada:", inbound.Port)
 	}
 	db := database.GetDB()
 	return db.Save(inbound).Error
@@ -120,7 +120,7 @@ func (s *InboundService) UpdateInbound(inbound *model.Inbound) error {
 		return err
 	}
 	if exist {
-		return common.NewError("端口已存在:", inbound.Port)
+		return common.NewError("pelabuhan sudah ada:", inbound.Port)
 	}
 
 	oldInbound, err := s.GetInbound(inbound.Id)
