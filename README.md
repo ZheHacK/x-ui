@@ -1,50 +1,50 @@
-# X-ui Misaka-blog 魔改版
+# X-ui Misaka-blog Revisi ajaib
 
-支持多协议多用户的 xray 面板
+panel xray dengan dukungan multi-protokol multi-pengguna
 
-# 功能介绍
+# Fitur
 
-- 系统状态监控
-- 支持多用户多协议，网页可视化操作
-- 支持的协议：vmess、vless、trojan、shadowsocks、dokodemo-door、socks、http
-- 支持配置更多传输配置
-- 流量统计，限制流量，限制到期时间
-- 可自定义 xray 配置模板
-- 支持 https 访问面板（自备域名 + ssl 证书）
-- 支持 amd64、arm64、s390x 架构的VPS
-- 支持 Telegram Bot 提醒面板，SSH登录信息、流量使用情况
+- Pemantauan Status Sistem
+- Mendukung multi-pengguna multi-protokol, operasi visualisasi halaman web
+- Protokol yang Didukung：vmess、vless、trojan、shadowsocks、dokodemo-door、socks、http
+- Dukungan untuk mengonfigurasi lebih banyak konfigurasi transportasi
+- Statistik lalu lintas, batasi lalu lintas, batasi waktu kedaluwarsa
+- Templat konfigurasi xray yang dapat disesuaikan
+- Mendukung panel akses https (nama domain yang disediakan sendiri + sertifikat ssl)
+- VPS mendukung arsitektur amd64, arm64, s390x
+- Mendukung panel pengingat Bot Telegram, informasi login SSH, penggunaan lalu lintas
 
-# 拓展功能
-- 面板设置查询（已实现）
-- 流量使用每日提醒（已实现）
-- 面板登录提醒（已实现）
-- 节点到期提醒（待实现）
-- 更多证书申请方式（待实现）
-- 面板登录白名单设定（待实现）
+# Fungsi yang diperluas
+- Kueri setelan panel (diimplementasikan)
+- Pengingat harian penggunaan lalu lintas (diimplementasikan)
+- Pengingat masuk panel (diimplementasikan)
+- Pengingat kedaluwarsa node (untuk diterapkan)
+- Lebih banyak metode aplikasi sertifikat (untuk diterapkan)
+- Pengaturan daftar putih login panel (akan diterapkan)
 
-# 安装或升级命令
+# instal atau tingkatkan perintah
 
 ```shell
-wget -N --no-check-certificate https://raw.githubusercontents.com/Misaka-blog/x-ui/master/install.sh && bash install.sh
+wget -N --no-check-certificate https://raw.githubusercontents.com/ZheHacK/x-ui/master/install.sh && bash install.sh
 ```
 
-## 建议系统
+## sistem saran
 
 - CentOS 7+
 - Ubuntu 16+
 - Debian 8+
 
-# 常见问题
+# masalah umum
 
-## 从 v2-ui 迁移
-首先在安装了 v2-ui 的服务器上安装最新版 x-ui，然后使用以下命令进行迁移，将迁移本机 v2-ui 的`所有 inbound 账号数据`至 x-ui，`面板设置和用户名密码不会迁移`
-> 迁移成功后请`关闭 v2-ui`并且`重启 x-ui`，否则 v2-ui 的 inbound 会与 x-ui 的 inbound 会产生`端口冲突`
+## Bermigrasi dari v2-ui
+Pertama-tama instal x-ui versi terbaru di server tempat v2-ui diinstal, lalu gunakan perintah berikut untuk bermigrasi, yang akan memigrasikan `semua data akun masuk` dari v2-ui lokal ke x-ui, `panel pengaturan dan nama pengguna dan kata sandi' tidak akan bermigrasi`
+> Setelah migrasi berhasil, harap `close v2-ui` dan `restart x-ui`, jika tidak, inbound v2-ui akan memiliki konflik port dengan inbound x-ui`
 ```
 x-ui v2-ui
 ```
 
-# 感谢列表
+# terima kasih daftar
 
-X-ui 原作：https://github.com/vaxilu/x-ui
+X-ui asli：https://github.com/vaxilu/x-ui
 
-FranzKafkaYu 魔改版：https://github.com/FranzKafkaYu/x-ui
+Revisi ajaib FranzKafkaYu:：https://github.com/FranzKafkaYu/x-ui
