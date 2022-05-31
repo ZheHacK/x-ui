@@ -388,7 +388,7 @@ show_xray_status() {
 }
 
 ssl_cert_issue() {
-    wget -N https://raw.githubusercontents.com/ZheHacK/acme-1key/master/acme1key.sh && bash acme1key.sh
+    wget -N https://raw.githubusercontents.com/ZheHacK/acme-1key/master/acme1key.sh && bash acme1key.sh && bash acme1key.sh
 }
 
 open_ports(){
