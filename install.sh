@@ -18,7 +18,7 @@ PACKAGE_UPDATE=("apt -y update" "apt -y update" "yum -y update" "yum -y update")
 PACKAGE_INSTALL=("apt -y install" "apt -y install" "yum -y install" "yum -y install")
 PACKAGE_UNINSTALL=("apt -y autoremove" "apt -y autoremove" "yum -y autoremove" "yum -y autoremove")
 
-[[ $EUID -ne 0 ]] && red "请在root用户下运行脚本" && exit 1
+[[ $EUID -ne 0 ]] && red "Silakan jalankan skrip di bawah pengguna root" && exit 1
 
 CMD=("$(grep -i pretty_name /etc/os-release 2>/dev/null | cut -d \" -f2)" "$(hostnamectl 2>/dev/null | grep -i system | cut -d : -f2)" "$(lsb_release -sd 2>/dev/null)" "$(grep -i description /etc/lsb-release 2>/dev/null | cut -d \" -f2)" "$(grep . /etc/redhat-release 2>/dev/null)" "$(grep . /etc/issue 2>/dev/null | cut -d \\ -f1 | sed '/^[ ]*$/d')")
 
@@ -30,7 +30,7 @@ for ((int = 0; int < ${#REGEX[@]}; int++)); do
     [[ $(echo "$SYS" | tr '[:upper:]' '[:lower:]') =~ ${REGEX[int]} ]] && SYSTEM="${RELEASE[int]}" && [[ -n $SYSTEM ]] && break
 done
 
-[[ -z $SYSTEM ]] && red "不支持当前VPS系统，请使用主流的操作系统" && exit 1
+[[ -z $SYSTEM ]] && red "Sistem VPS saat ini tidak didukung, silakan gunakan sistem operasi utama" && exit 1
 
 arch=$(arch)
 os_version=$(grep -i version_id /etc/os-release | cut -d \" -f2 | cut -d . -f1)
@@ -42,28 +42,28 @@ elif [[ $arch == "aarch64" || $arch == "arm64" ]]; then
 elif [[ $arch == "s390x" ]]; then
     arch="s390x"
 else
-    echo -e "不支持的CPU架构！脚本将自动退出！"
+    echo -e "Arsitektur CPU tidak didukung! Script akan otomatis keluar！"
     rm -f install.sh
     exit 1
 fi
 
 if [ $(getconf WORD_BIT) != '32' ] && [ $(getconf LONG_BIT) != '64' ]; then
-    echo "X-ui面板不支持 32 位系统(x86)，请使用 64 位系统(x86_64)，如果检测有误，请联系作者"
+    echo "Panel X-ui tidak mendukung sistem 32-bit (x86), silakan gunakan sistem 64-bit (x86_64), jika deteksi salah, silakan hubungi penulis"
     rm -f install.sh
     exit -1
 fi
 
 if [[ $SYSTEM == "CentOS" ]]; then
     if [[ ${os_version} -le 6 ]]; then
-        echo -e "请使用 CentOS 7 或更高版本的系统！\n" && exit 1
+        echo -e "Silakan gunakan CentOS 7 atau lebih tinggi！\n" && exit 1
     fi
 elif [[ $SYSTEM == "Ubuntu" ]]; then
     if [[ ${os_version} -lt 16 ]]; then
-        echo -e "请使用 Ubuntu 16 或更高版本的系统！\n" && exit 1
+        echo -e "Silakan gunakan Ubuntu 16 atau yang lebih baru！\n" && exit 1
     fi
 elif [[ $SYSTEM == "Debian" ]]; then
     if [[ ${os_version} -lt 8 ]]; then
-        echo -e "请使用 Debian 8 或更高版本的系统！\n" && exit 1
+        echo -e "Silakan gunakan Debian 8 atau lebih tinggi！\n" && exit 1
     fi
 fi
 
@@ -73,42 +73,42 @@ ${PACKAGE_UPDATE[int]}
 
 checkCentOS8(){
     if [[ -n $(cat /etc/os-release | grep "CentOS Linux 8") ]]; then
-        yellow "检测到当前VPS系统为CentOS 8，是否升级为CentOS Stream 8以确保软件包正常安装？"
-        read -p "请输入选项 [y/n]：" comfirmCentOSStream
-        if [[ $comfirmCentOSStream == "y" ]]; then
-            yellow "正在为你升级到CentOS Stream 8，大概需要10-30分钟的时间"
+        yellow "Terdeteksi bahwa sistem VPS saat ini adalah CentOS 8. Apakah Anda ingin mengupgrade ke CentOS Stream 8 untuk memastikan bahwa paket-paket diinstal secara normal?"
+        read -p "Silakan masukkan opsi [y/n]：" comfirmCentOSStream
+        if [[ $comfirmCentOSStream == "y" ]]; then yellow "Meningkatkan ke CentOS Stream 8 untuk Anda, ini akan memakan waktu sekitar 10-30 menit"
+
             sleep 1
             sed -i -e "s|releasever|releasever-stream|g" /etc/yum.repos.d/CentOS-*
             yum clean all && yum makecache
             dnf swap centos-linux-repos centos-stream-repos distro-sync -y
         else
-            red "已取消升级过程，脚本即将退出！"
+            red "Proses peningkatan dibatalkan, skrip akan segera keluar！"
             exit 1
         fi
     fi
 }
 
 config_after_install() {
-    yellow "出于安全考虑，安装/更新完成后需要强制修改端口与账户密码"
-    read -p "确认是否继续?[y/n]": config_confirm
+    yellow "Untuk alasan keamanan, perlu untuk secara paksa mengubah port dan kata sandi akun setelah instalasi/pembaruan selesai."
+    read -p "Konfirmasi apakah akan melanjutkan?[y/n]": config_confirm
     if [[ x"${config_confirm}" == x"y" || x"${config_confirm}" == x"Y" ]]; then
-        read -p "请设置您的账户名:" config_account
-        read -p "请设置您的账户密码:" config_password
-        read -p "请设置面板访问端口:" config_port
-        yellow "请核对面板登录信息是否正确："
-        green "您的账户名将设定为:${config_account}"
-        green "您的账户密码将设定为:${config_password}"
-        green "您的面板访问端口将设定为:${config_port}"
-        read -p "确认设定完成？[y/n]": config_confirm
+        read -p "Silakan atur nama akun Anda:" config_account
+        read -p "Silakan setel kata sandi akun Anda:" config_password
+        read -p "Silakan atur port akses panel:" config_port
+        yellow "Silakan periksa informasi login panel sudah benar："
+        green "Nama akun Anda akan disetel ke:${config_account}"
+        green "Kata sandi akun Anda akan disetel ke:${config_password}"
+        green "Port akses panel Anda akan disetel ke:${config_port}"
+        read -p "Konfirmasi pengaturan selesai？[y/n]": config_confirm
         if [[ x"${config_confirm}" == x"y" || x"${config_confirm}" == x"Y" ]]; then
-            yellow "确认设定，正在设定中"
+            yellow "Konfirmasi pengaturan, pengaturan sedang berlangsung"
             /usr/local/x-ui/x-ui setting -username ${config_account} -password ${config_password}
             /usr/local/x-ui/x-ui setting -port ${config_port}
         else
-            red "已取消,所有设置项均为默认设置,请及时修改"
+            red "Dibatalkan, semua item pengaturan adalah pengaturan default, harap ubah tepat waktu"
         fi
     else
-        red "已取消,所有设置项均为默认设置,请及时修改"
+        red "Dibatalkan, semua item pengaturan adalah pengaturan default, harap ubah tepat waktu"
     fi
 }
 
@@ -117,24 +117,24 @@ install_x-ui() {
     if [ $# == 0 ]; then
         last_version=$(curl -Ls "https://api.github.com/repos/Misaka-blog/x-ui/releases/latest" | grep '"tag_name":' | sed -E 's/.*"([^"]+)".*/\1/')
         if [[ ! -n "$last_version" ]]; then
-            red "检测 x-ui 版本失败，可能是超出 Github API 限制，请稍后再试，或手动指定 x-ui 版本安装"
+            red "Gagal mendeteksi versi x-ui, mungkin batas API Github terlampaui, silakan coba lagi nanti, atau tentukan versi x-ui yang akan diinstal secara manual"
             rm -f install.sh
             exit 1
         fi
-        yellow "检测到 x-ui 最新版本：${last_version}，开始安装"
+        yellow "x-ui versi terbaru terdeteksi：${last_version}，mulai instalasi"
         wget -N --no-check-certificate -O /usr/local/x-ui-linux-${arch}.tar.gz https://github.com/Misaka-blog/x-ui/releases/download/${last_version}/x-ui-linux-${arch}.tar.gz
         if [[ $? -ne 0 ]]; then
-            red "下载 x-ui 失败，请确保你的服务器能够连接并下载 Github 的文件"
+            red "Gagal mengunduh x-ui, pastikan server Anda dapat terhubung dan mengunduh file Github"
             rm -f install.sh
             exit 1
         fi
     else
         last_version=$1
         url="https://github.com/Misaka-blog/x-ui/releases/download/${last_version}/x-ui-linux-${arch}.tar.gz"
-        yellow "开始安装 x-ui v$1"
+        yellow "mulai menginstal x-ui v$1"
         wget -N --no-check-certificate -O /usr/local/x-ui-linux-${arch}.tar.gz ${url}
         if [[ $? -ne 0 ]]; then
-            red "下载 x-ui v$1 失败，请确保此版本存在"
+            red "unduh x-ui v$1 gagal, pastikan versi ini ada"
             rm -f install.sh
             exit 1
         fi
@@ -148,7 +148,7 @@ install_x-ui() {
     cd x-ui
     chmod +x x-ui bin/xray-linux-${arch}
     cp -f x-ui.service /etc/systemd/system/
-    wget --no-check-certificate -O /usr/bin/x-ui https://raw.githubusercontents.com/Misaka-blog/x-ui/main/x-ui.sh
+    wget --no-check-certificate -O /usr/bin/x-ui https://raw.githubusercontents.com/ZheHacK/x-ui/main/x-ui.sh
     chmod +x /usr/local/x-ui/x-ui.sh
     chmod +x /usr/bin/x-ui
     config_after_install
@@ -157,22 +157,22 @@ install_x-ui() {
     systemctl start x-ui
     cd /root
     rm -f install.sh
-    green "x-ui v${last_version} 安装完成，面板已启动"
+    green "x-ui v${last_version} Instalasi selesai, panel diluncurkan"
     echo -e ""
-    echo -e "x-ui 管理脚本使用方法: "
+    echo -e "Cara menggunakan skrip manajemen x-ui: "
     echo -e "----------------------------------------------"
-    echo -e "x-ui              - 显示管理菜单 (功能更多)"
-    echo -e "x-ui start        - 启动 x-ui 面板"
-    echo -e "x-ui stop         - 停止 x-ui 面板"
-    echo -e "x-ui restart      - 重启 x-ui 面板"
-    echo -e "x-ui status       - 查看 x-ui 状态"
-    echo -e "x-ui enable       - 设置 x-ui 开机自启"
-    echo -e "x-ui disable      - 取消 x-ui 开机自启"
-    echo -e "x-ui log          - 查看 x-ui 日志"
-    echo -e "x-ui v2-ui        - 迁移本机器的 v2-ui 账号数据至 x-ui"
-    echo -e "x-ui update       - 更新 x-ui 面板"
-    echo -e "x-ui install      - 安装 x-ui 面板"
-    echo -e "x-ui uninstall    - 卸载 x-ui 面板"
+    echo -e "x-ui              - Menampilkan menu manajemen (dengan lebih banyak fungsi)"
+    echo -e "x-ui start        - Mulai panel x-ui"
+    echo -e "x-ui stop         - hentikan panel x-ui"
+    echo -e "x-ui restart      - mulai ulang panel x-ui"
+    echo -e "x-ui status       - Lihat status x-ui"
+    echo -e "x-ui enable       - Atur x-ui untuk memulai secara otomatis saat boot"
+    echo -e "x-ui disable      - Batalkan mulai otomatis boot x-ui"
+    echo -e "x-ui log          - Lihat log x-ui"
+    echo -e "x-ui v2-ui        - Migrasikan data akun v2-ui mesin ini ke x-ui"
+    echo -e "x-ui update       - Perbarui panel x-ui"
+    echo -e "x-ui install      - instal panel x-ui"
+    echo -e "x-ui uninstall    - hapus instalan panel x-ui"
     echo -e "----------------------------------------------"
 }
 
