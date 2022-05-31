@@ -48,3 +48,6 @@ x-ui v2-ui
 X-ui asli：https://github.com/vaxilu/x-ui
 
 Revisi ajaib FranzKafkaYu:：https://github.com/FranzKafkaYu/x-ui
+
+Revisi ajaib Misaka-blog/x-ui
+:：https://github.com/Misaka-blog/x-ui
